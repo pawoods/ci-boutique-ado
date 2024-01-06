@@ -12,7 +12,7 @@
 
 {% block content %}
 <div class="overlay"></div>
-<div class="container mb-">
+<div class="container mb-2">
     <div class="row">
         <div class="col">
             <hr>
@@ -55,18 +55,39 @@
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    <button class="decrement-qty btn btn-sm btn-black rounded-0" data-item_id="{{ item.item_id }}"
-                                                        id="decrement-qty_{{ item.item_id }}">
+                                                    <button class="decrement-qty btn btn-sm btn-black rounded-0" 
+                                                        {% if item.product.has_sizes %}
+                                                        data-item_id="{{ item.item_id }}_{{ item.size }}" 
+                                                        id="decrement-qty_{{ item.item_id }}_{{ item.size }}"
+                                                        {% else %}
+                                                        data-item_id="{{ item.item_id }}" 
+                                                        id="decrement-qty_{{ item.item_id }}"
+                                                        {% endif %}
+                                                        >
                                                         <span>
                                                             <i class="fas fa-minus fa-sm"></i>
                                                         </span>
                                                     </button>
                                                 </div>
-                                                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="99" data-item_id="{{ item.item_id }}"
-                                                    id="id_qty_{{ item.item_id }}" class="form-control form-control-sm qty_input" />
+                                                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="99" 
+                                                    {% if item.product.has_sizes %}
+                                                    data-item_id="{{ item.item_id }}_{{ item.size }}" 
+                                                    id="id_qty_{{ item.item_id }}_{{ item.size }}" 
+                                                    {% else %}
+                                                    data-item_id="{{ item.item_id }}" 
+                                                    id="id_qty_{{ item.item_id }}" 
+                                                    {% endif %}
+                                                    class="form-control form-control-sm qty_input" />
                                                 <div class="input-group-append">
-                                                    <button class="increment-qty btn btn-sm btn-black rounded-0" data-item_id="{{ item.item_id }}"
-                                                        id="increment-qty_{{ item.item_id }}">
+                                                    <button class="increment-qty btn btn-sm btn-black rounded-0" 
+                                                        {% if item.product.has_sizes %}
+                                                        data-item_id="{{ item.item_id }}_{{ item.size }}" 
+                                                        id="increment-qty_{{ item.item_id }}_{{ item.size }}"
+                                                        {% else %}
+                                                        data-item_id="{{ item.item_id }}" 
+                                                        id="increment-qty_{{ item.item_id }}"
+                                                        {% endif %}
+                                                        >
                                                         <span>
                                                             <i class="fas fa-plus fa-sm"></i>
                                                         </span>
@@ -106,7 +127,7 @@
                                         </span>
                                         <span class="text-uppercase">Keep Shopping</span>
                                     </a>
-                                    <a href="" class="btn btn-black rounded-0 btn-lg">
+                                    <a href="{% url 'checkout' %}" class="btn btn-black rounded-0 btn-lg">
                                         <span class="text-uppercase">Secure Checkout</span>
                                         <span class="icon">
                                             <i class="fas fa-lock"></i>
