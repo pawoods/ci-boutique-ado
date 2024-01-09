@@ -80,7 +80,7 @@
                             </div>
                         </a>
                         <div class="dropdown-menu border-0" aria-labelledby="user-options">
-                            {% if request.user.is_autenticated %}
+                            {% if request.user.is_authenticated %}
                             {% if request.user.is_superuser %}
                             <a href="" class="dropdown-item">Product Management</a>
                             {% endif %}
