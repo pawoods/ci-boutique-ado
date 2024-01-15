@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-nz^&@3-ebtamgq3-gk9s5uj&10nm0bjblzd%%123-4#)7i10*a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['8000-pawoods-ci-boutique-ado-ke3yui6lrn.us2.codeanyapp.com']
+ALLOWED_HOSTS = ['8000-pawoods-ci-boutique-ado-ke3yui6lrn.us2.codeanyapp.com', 'boutique-ado-pawoods']
 
 
 # Application definition
@@ -120,12 +120,17 @@ WSGI_APPLICATION = 'boutique_ado.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if 'DATABASE_URL' in os.environ:
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
@@ -182,5 +187,7 @@ STANDARD_DELIVERY_PERCENTAGE = 10
 STRIPE_CURRENCY = 'usd'
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
-STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', 'whsec_s2q6tGghSRn4Pgqj2n0j7qyHsgN2RMWd')
+STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
+
 DEFAULT_FROM_EMAIL = 'boutiqueado@example.com'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
